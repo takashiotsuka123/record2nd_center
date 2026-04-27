@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>お問い合わせフォーム｜レコード買取センター</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #F2E8CC; --brown: #4A2C0E; --red: #A02820;
+    --gold: #B8841A; --cream: #FAF3E0; --muted: #6B4C28; --border: #B89850;
+  }
+  body {
+    background: var(--bg);
+    font-family: 'Noto Serif CJK JP', 'IPAGothic', serif;
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--brown);
+    border-bottom: 4px solid var(--gold);
+    padding: 0 32px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo { font-size: 20px; font-weight: 900; color: var(--gold); letter-spacing: 0.2em; }
+  .back-btn {
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 6px 16px;
+  }
+  .back-btn:hover { color: var(--gold); border-color: var(--gold); }
+
+  .form-wrap {
+    max-width: 680px;
+    margin: 56px auto;
+    padding: 0 24px 80px;
+  }
+
+  .form-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .form-label-top {
+    display: inline-block;
+    border: 2px solid var(--brown);
+    color: var(--brown);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 20px;
+    letter-spacing: 0.4em;
+    margin-bottom: 14px;
+  }
+  .form-title {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--brown);
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+  }
+  .form-deco { color: var(--gold); font-size: 18px; letter-spacing: 6px; }
+  .form-note {
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 14px;
+    line-height: 1.9;
+  }
+
+  .form-box {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    box-shadow: 5px 5px 0 var(--border);
+    padding: 48px 40px;
+  }
+
+  .field { margin-bottom: 28px; }
+  .field label {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--brown);
+    letter-spacing: 0.12em;
+    margin-bottom: 8px;
+  }
+  .field label .required {
+    background: var(--red);
+    color: #fff;
+    font-size: 10px;
+    padding: 2px 8px;
+    margin-left: 8px;
+    letter-spacing: 0.15em;
+    vertical-align: middle;
+  }
+  .field label .optional {
+    background: var(--gold);
+    color: #fff;
+    font-size: 10px;
+    padding: 2px 8px;
+    margin-left: 8px;
+    letter-spacing: 0.15em;
+    vertical-align: middle;
+  }
+  .field input[type="text"],
+  .field input[type="tel"],
+  .field input[type="email"],
+  .field textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    background: #fff;
+    padding: 12px 16px;
+    font-size: 16px;
+    font-family: inherit;
+    color: var(--brown);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .field input:focus, .field textarea:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(184,132,26,0.15);
+  }
+  .field textarea { min-height: 100px; resize: vertical; }
+
+  .radio-group, .checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 4px;
+  }
+  .radio-group label, .checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--brown);
+    cursor: pointer;
+    border: 1px solid var(--border);
+    padding: 10px 20px;
+    background: #fff;
+    letter-spacing: 0.08em;
+    transition: background 0.2s, border-color 0.2s;
+    margin-bottom: 0;
+  }
+  .radio-group input[type="radio"],
+  .checkbox-group input[type="checkbox"] {
+    accent-color: var(--red);
+    width: 16px; height: 16px;
+  }
+  .radio-group label:has(input:checked),
+  .checkbox-group label:has(input:checked) {
+    background: rgba(184,132,26,0.1);
+    border-color: var(--gold);
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px dashed var(--border);
+    margin: 32px 0;
+  }
+
+  .submit-btn {
+    width: 100%;
+    background: var(--red);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 20px;
+    border: 2px solid #7A1E14;
+    cursor: pointer;
+    letter-spacing: 0.25em;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+    font-family: inherit;
+    margin-top: 8px;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .submit-btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 rgba(0,0,0,0.3); }
+
+  .privacy-note {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 20px;
+    line-height: 1.8;
+  }
+
+  /* 完了画面 */
+  .thanks {
+    display: none;
+    text-align: center;
+    padding: 60px 24px;
+  }
+  .thanks-icon { font-size: 60px; margin-bottom: 24px; }
+  .thanks h2 { font-size: 26px; font-weight: 900; color: var(--brown); letter-spacing: 0.15em; margin-bottom: 16px; }
+  .thanks p { font-size: 15px; color: var(--muted); line-height: 2; }
+
+  footer {
+    background: #1E0A02;
+    border-top: 4px solid var(--gold);
+    padding: 28px;
+    text-align: center;
+  }
+  footer p { font-size: 12px; color: rgba(255,255,255,0.3); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">レコード買取センター</div>
+  <a class="back-btn" href="index_record.html">← ホームに戻る</a>
+</header>
+
+<div class="form-wrap">
+  <div class="form-header">
+    <div class="form-label-top">お問い合わせ</div>
+    <div class="form-title">無料査定フォーム</div>
+    <div class="form-deco">〜〜〜〜〜</div>
+    <p class="form-note">
+      以下のフォームにご記入のうえ、送信してください。<br>
+      担当者より折り返しご連絡いたします。
+    </p>
+  </div>
+
+  <div class="form-box" id="formBox">
+    <form id="contactForm">
+
+      <div class="field">
+        <label>お名前 <span class="required">必須</span></label>
+        <input type="text" name="name" placeholder="例：山田　太郎" required>
+      </div>
+
+      <div class="field">
+        <label>電話番号 <span class="required">必須</span></label>
+        <input type="tel" name="tel" placeholder="例：090-1234-5678" required>
+      </div>
+
+      <div class="field">
+        <label>メールアドレス <span class="optional">任意</span></label>
+        <input type="email" name="email" placeholder="例：sample@email.com">
+      </div>
+
+      <div class="field">
+        <label>ご住所 <span class="required">必須</span></label>
+        <input type="text" name="address" placeholder="例：大阪府大阪市北区○○町1-1-1" required>
+      </div>
+
+      <hr class="divider">
+
+      <div class="field">
+        <label>買取方法 <span class="required">必須</span></label>
+        <div class="radio-group">
+          <label><input type="radio" name="method" value="郵送" required> 📦　郵送</label>
+          <label><input type="radio" name="method" value="現地引き取り"> 🚗　現地引き取り（近畿圏内）</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>買取品目 <span class="required">必須</span>（複数選択可）</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="item" value="レコード"> 🎵　レコード</label>
+          <label><input type="checkbox" name="item" value="音響機器"> 🔊　音響機器</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>枚数・型番など <span class="optional">任意</span></label>
+        <textarea name="detail" placeholder="例：LPレコード約50枚（ジャズ中心）&#10;例：スピーカー YAMAHA NS-1000M　2本"></textarea>
+      </div>
+
+      <div class="field">
+        <label>その他ご要望・ご質問 <span class="optional">任意</span></label>
+        <textarea name="message" placeholder="お気軽にご記入ください"></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">この内容で送信する</button>
+      <p class="privacy-note">
+        ご入力いただいた情報は、査定・お問い合わせへの返答のみに使用いたします。<br>
+        第三者への提供は一切行いません。
+      </p>
+    </form>
+  </div>
+
+  <div class="thanks" id="thanksBox">
+    <div class="thanks-icon">✉️</div>
+    <h2>送信が完了しました</h2>
+    <p>
+      お問い合わせありがとうございます。<br>
+      担当者より折り返しご連絡いたします。<br><br>
+      受付時間：２４時間受付（年中無休）<br>
+      電話：050-1793-3137
+    </p>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 レコード買取センター　｜　電話：050-1793-3137</p>
+</footer>
+
+<script>
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const name = form.name.value;
+  const tel = form.tel.value;
+  const email = form.email.value;
+  const address = form.address.value;
+  const method = form.querySelector('input[name="method"]:checked')?.value || '未選択';
+  const items = [...form.querySelectorAll('input[name="item"]:checked')].map(i => i.value).join('、') || '未選択';
+  const detail = form.detail.value;
+  const message = form.message.value;
+
+  const body = encodeURIComponent(
+`【レコード買取センター　お問い合わせフォーム】
+
+■ お名前：${name}
+■ 電話番号：${tel}
+■ メールアドレス：${email || 'なし'}
+■ ご住所：${address}
+■ 買取方法：${method}
+■ 買取品目：${items}
+■ 枚数・型番など：${detail || 'なし'}
+■ その他ご要望：${message || 'なし'}
+`
+  );
+
+  const subject = encodeURIComponent(`【買取お問い合わせ】${name} 様`);
+  window.location.href = `mailto:stones.queen60@gmail.com?subject=${subject}&body=${body}`;
+
+  // 完了画面表示
+  setTimeout(() => {
+    document.getElementById('formBox').style.display = 'none';
+    document.getElementById('thanksBox').style.display = 'block';
+    window.scrollTo(0, 0);
+  }, 800);
+});
+</script>
+
+</body>
+</html>
